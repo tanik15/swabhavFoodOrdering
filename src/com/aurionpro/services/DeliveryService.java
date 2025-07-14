@@ -10,23 +10,33 @@ import com.aurionpro.model.delivery.Zomato;
 
 public class DeliveryService {
 	private List<IDelivery> deliveryServices = (List<IDelivery>) Arrays.asList(new Zomato(), new Swiggy());
+	private List<IDelivery> AvailabledeliveryServices = (List<IDelivery>) Arrays.asList(new Zomato(), new Swiggy());
 
 	public void AssignDeliveryPartner() {
 		Random random = new Random();
-		int number = random.nextInt(1, 2);
-		if (number == 1) {
-			Zomato zomato = new Zomato();
-			zomato.assignDevlivery();
-			return;
+		int number = random.nextInt(1, AvailabledeliveryServices.size());
+		for (int i = 0; i < AvailabledeliveryServices.size(); i++) {
+			if (i == number) {
+				AvailabledeliveryServices.get(i).assignDevlivery();
+			}
 		}
-		Swiggy swiggy = new Swiggy();
-		swiggy.assignDevlivery();
 	}
 
 	public void displayDeliveryPartner() {
 		int i = 1;
 		for (IDelivery delivery : deliveryServices) {
-			System.out.println(i + " " + delivery.getDeliveryPartnerName());
-		}			
+			System.out.println(
+					i + " " + delivery.getDeliveryPartnerName() + " Status : " + delivery.getAvailabilityStatus());
+			i++;
+		}
+	}
+
+	public void setDeliveryPartner(int id, boolean isActive) {
+		for (int i = 0; i < deliveryServices.size(); i++) {
+			if (i == id) {
+				deliveryServices.get(i).setAvailabililtyStatus(isActive);
+				System.out.println(deliveryServices.get(i).getDeliveryPartnerName()+ " "+ deliveryServices.get(i).getAvailabilityStatus());
+			}
+		}
 	}
 }

@@ -38,7 +38,7 @@ public class MyApp {
 
 	private static void displayAdminMenu(Scanner scanner, User currentUser) throws ClassNotFoundException, IOException {
 		int choice = 0;
-		while (choice != 7) {
+		while (choice != 8) {
 			adminService();
 			choice = scanner.nextInt();
 			scanner.nextLine();
@@ -64,20 +64,36 @@ public class MyApp {
 				System.out.println("Enter Food Id");
 				int id = scanner.nextInt();
 				foodService.removeFoodItem(id);
+				continue;
 			}
-			if(choice==6) {
+			if (choice == 6) {
 				DeliveryService deliveryService = new DeliveryService();
 				deliveryService.displayDeliveryPartner();
+				continue;
 			}
 			if (choice == 7) {
+				DeliveryService deliveryService = new DeliveryService();
+				deliveryService.displayDeliveryPartner();
+				System.out.println("Select the Service: ");
+				int serviceSelected = scanner.nextInt();
+				scanner.nextLine();
+				System.out.println("1.Active \n2.InActive");
+				int status = scanner.nextInt();
+				serviceSelected--;
+				if (status == 1) {
+					deliveryService.setDeliveryPartner(serviceSelected, true);
+				}
+				deliveryService.setDeliveryPartner(serviceSelected, false);
+				continue;
+			}
+			if (choice == 8) {
 				System.out.println("Thankyou!");
 			}
 
 		}
 	}
-	
-	private static void adminService()
-	{
+
+	private static void adminService() {
 		System.out.println("\n==========================================");
 		System.out.println("        🛠️  Admin Service Menu");
 		System.out.println("==========================================");
@@ -87,10 +103,12 @@ public class MyApp {
 		System.out.println("4️⃣  ➕ Add New Food Item");
 		System.out.println("5️⃣  ❌ Remove Existing Food Item");
 		System.out.println("6️⃣  🚚 Display Delivery Partners");
-		System.out.println("7️⃣  🚪 Exit");
+		System.out.println("7️⃣  🚚 Modify Delivery Partners");
+		System.out.println("8   🚪 Exit");
 		System.out.println("==========================================");
 		System.out.print("👉 Please choose a service (1–7): ");
 	}
+
 	private static void addNewFoodItem(Scanner scanner, FoodService foodService) {
 		System.out.println("\n===========================================");
 		System.out.println("        ➕ Add a New Food Item");
@@ -148,8 +166,6 @@ public class MyApp {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	
 
 	private static void processPayment(Scanner scanner, Order order, double totalAmount) {
 		PaymentService paymentService = new PaymentService();
@@ -161,20 +177,20 @@ public class MyApp {
 		int choice = scanner.nextInt();
 		scanner.nextLine();
 		try {
-		paymentService.doPayment(choice, totalAmount, scanner);
-		try {
-			System.out.println("\n🔍 Finding the best delivery partner for your order...");
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.getMessage();
-		}
-		DeliveryService deliveryService = new DeliveryService();
-		deliveryService.AssignDeliveryPartner();
-		System.out.println("🕒 Your order will be delivered in approximately 30 minutes.");
-		System.out.println("🙏 Thank you for ordering with AuroFood! Enjoy your meal! 🍽️");
-		}catch(NoPaymentOptionFoundException e) {
+			paymentService.doPayment(choice, totalAmount, scanner);
+			try {
+				System.out.println("\n🔍 Finding the best delivery partner for your order...");
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.getMessage();
+			}
+			DeliveryService deliveryService = new DeliveryService();
+			deliveryService.AssignDeliveryPartner();
+			System.out.println("🕒 Your order will be delivered in approximately 30 minutes.");
+			System.out.println("🙏 Thank you for ordering with AuroFood! Enjoy your meal! 🍽️");
+		} catch (NoPaymentOptionFoundException e) {
 			System.out.println(e.getMessage());
-			processPayment(scanner,order,totalAmount);
+			processPayment(scanner, order, totalAmount);
 		}
 	}
 
@@ -284,12 +300,12 @@ public class MyApp {
 		if (choice != 2) {
 			authenticateUser(scanner);
 		}
-			
-		User loginUser = loginUser(scanner,userService);
+
+		User loginUser = loginUser(scanner, userService);
 		return loginUser;
-		
+
 	}
-	
+
 	private static User loginUser(Scanner scanner, UserService userService) throws ClassNotFoundException, IOException {
 		System.out.println("\n=====================================");
 		System.out.println("   🔐 Customer Login");
