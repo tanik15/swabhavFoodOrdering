@@ -60,6 +60,10 @@ public class MyApp {
 				int id = scanner.nextInt();
 				foodService.removeFoodItem(id);
 			}
+			if(choice==6) {
+				DeliveryService deliveryService = new DeliveryService();
+				deliveryService.displayDeliveryPartner();
+			}
 			if (choice == 7) {
 				System.out.println("Thankyou!");
 			}
@@ -139,6 +143,8 @@ public class MyApp {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	
 
 	private static void processPayment(Scanner scanner, Order order, double totalAmount) {
 		PaymentService paymentService = new PaymentService();
