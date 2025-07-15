@@ -1,4 +1,4 @@
-package com.aurionpro.model.payments;
+package com.aurionpro.services;
 
 import java.util.Arrays;
 
@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.aurionpro.exceptions.payments.NoPaymentOptionFoundException;
+import com.aurionpro.model.payments.CreditCard;
+import com.aurionpro.model.payments.DebitCard;
+import com.aurionpro.model.payments.IPayment;
+import com.aurionpro.model.payments.Upi;
 
 public class PaymentService {
 	private List<IPayment> paymentservices = (List<IPayment>) Arrays.asList(new CreditCard(), new DebitCard(),

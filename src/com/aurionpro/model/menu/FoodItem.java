@@ -26,6 +26,7 @@ public abstract class FoodItem implements Serializable {
 
 	public void addFoodItem(Food item) {
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("step1");
 		Iterator<Food> iterator = items.iterator();
 		while (iterator.hasNext()) {
 			Food f = iterator.next();
@@ -38,19 +39,24 @@ public abstract class FoodItem implements Serializable {
 					System.out.println("Food Updated!.");
 					return;
 				}
+				System.out.println("Okay");
+				return;
 			}
 		}
+		items.add(item);
 	};
 
-	public void deleteFoodItem(int id) {
+	public boolean deleteFoodItem(int id) {
 		Iterator<Food> iterator = items.iterator();
 		while (iterator.hasNext()) {
 			Food f = iterator.next();
 			if (f.getFoodId() == id) {
 				iterator.remove(); // ✅ Safe removal
 				System.out.println(f.getFoodName() + " is removed");
+				return true;
 			}
 		}
+		return false;
 	};
 
 	public void DisplayVegFoodItem() {

@@ -10,6 +10,7 @@ public class Order implements Serializable {
 	List<OrderItem> orderList = new ArrayList<>();
 	public double grandTotal = 0;
 	public String dateTime="";
+	public int orderId;
 
 	public void addItem(OrderItem order) {
 		for (OrderItem orderr : orderList) {
@@ -27,7 +28,7 @@ public class Order implements Serializable {
 
 	public Order displayOrderList() {
 		System.out.println("\n\n===============================================================================");
-		System.out.println("\t\tAuroFoodService - Final Bill\t\t" + dateTime);
+		System.out.println("OrderId:"+orderId+"\t   AuroFoodService - Final Bill\t\t" + dateTime);
 		System.out.println("===============================================================================");
 		System.out.printf("%-5s %-25s %-10s %-15s %-10s %-10s\n", "ID", "Name", "Price(₹)", "Discounted(₹)", "Qty",
 				"Total(₹)");

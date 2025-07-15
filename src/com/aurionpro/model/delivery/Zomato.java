@@ -5,7 +5,7 @@ public class Zomato implements IDelivery {
 	@Override
 	public void assignDevlivery() {
 		// TODO Auto-generated method stub
-		System.out.println("\n✅ Zomato is assigned for the delivery");
+		System.out.println("\n\t\t✅ Zomato is assigned for the delivery");
 	}
 	
 	@Override

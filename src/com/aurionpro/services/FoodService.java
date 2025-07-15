@@ -15,7 +15,7 @@ import com.aurionpro.model.menu.FoodItem;
 
 public class FoodService {
 	public static int newids = 100;
-	public static List<FoodItem> menuList = new ArrayList<>();
+	private  List<FoodItem> menuList = new ArrayList<>();
 
 	public Food getFoodById(int id) throws FoodNotFoundException {
 		for (FoodItem item : menuList) {
@@ -27,30 +27,36 @@ public class FoodService {
 	}
 
 	public void removeFoodItem(int id) throws IOException {
+		boolean isChange = false;
 		for (FoodItem item : menuList) {
-			item.deleteFoodItem(id);
+			isChange = item.deleteFoodItem(id);
+			if(isChange==true) {
+				serializeMenu();         
+				break;
+			}
 		}
-		serializeMenu();
+		if(isChange==false) {
+			System.out.println("No Food Exist with id : " + id);
+		}
 	}
 
 	public void addNewFoodItem(Food food, String foodItem) throws IOException {
 		menuList.forEach((menu) -> {
 			if (menu.getFoodItemName().equals(foodItem)) {
 				menu.addFoodItem(food);
+				
 			}
 		});
 		serializeMenu();
-//		System.out.println(food.getFoodName() + " is added to "+ foodItem);
-		return;
 	}
 
 	private void deserialize() {
 		try {
-			FileInputStream fos = new FileInputStream("Menu");
-			ObjectInputStream oos = new ObjectInputStream(fos);
-			menuList = (List<FoodItem>) oos.readObject();
-			fos.close();
-			oos.close();
+			FileInputStream fis = new FileInputStream("Menu");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			menuList = (List<FoodItem>) ois.readObject();
+			fis.close();
+			ois.close();
 		} catch (Exception exception) {
 			System.out.println(exception.getMessage());
 		}
@@ -117,7 +123,7 @@ public class FoodService {
 		FileOutputStream fos = new FileOutputStream("Menu");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(menuList);
-		System.out.println("Serialize");
+//		System.out.println("Serialize");
 		fos.close();
 		oos.close();
 	}
